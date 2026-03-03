@@ -22,7 +22,9 @@ export function extractLightPowerState(
   const deviceId = process.env.SWITCHBOT_DEVICE_ID;
 
   if (!deviceId) return null;
-  if (payload.context?.deviceMac !== deviceId && payload.context?.deviceType !== "Ceiling Light") {
+  const deviceType = payload.context?.deviceType || "";
+  const isCeilingLight = deviceType.startsWith("Ceiling Light");
+  if (payload.context?.deviceMac !== deviceId && !isCeilingLight) {
     return null;
   }
 
